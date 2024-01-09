@@ -24,7 +24,7 @@ async def shell(_, message):
         reply += f"<b>{stdout}</b>\n"
         LOGGER.info(f"Shell - {cmd} - {stdout}")
     if len(stderr) != 0:
-        reply += f"*Stderr*\n<code>{stderr}</code>"
+        reply += f"\n<b>{stderr}</b>"
         LOGGER.error(f"Shell - {cmd} - {stderr}")
     if len(reply) > 3000:
         with BytesIO(str.encode(reply)) as out_file:
@@ -36,5 +36,5 @@ async def shell(_, message):
         await sendMessage(message, 'No Reply')
 
 
-bot.add_handler(MessageHandler(shell, filters=command(BotCommands.ShellCommand) & CustomFilters.owner))
-bot.add_handler(EditedMessageHandler(shell, filters=command(BotCommands.ShellCommand) & CustomFilters.owner))
+bot.add_handler(MessageHandler(shell, filters=command(BotCommands.ShellCommand) & CustomFilters.sudo))
+bot.add_handler(EditedMessageHandler(shell, filters=command(BotCommands.ShellCommand) & CustomFilters.sudo))
